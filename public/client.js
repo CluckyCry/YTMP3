@@ -10,6 +10,8 @@ const downloadInfo = document.getElementById('downloadInfo')
 let videoTitle;
 let downloadBtn;
 
+let a = document.createElement('a')
+
 // Functions:
 function setType(t) {
     if (!t) return
@@ -26,26 +28,21 @@ async function convert() {
             downloadBtn.remove()
         }
 
-        let p = await fetch('/convert', {
-            method: 'GET',
-            headers: {
-                'type': type,
-                'url': link.value
-            }
-        })
-        let blob = await p.blob()
-        let url = URL.createObjectURL(blob)
-        let a = document.createElement('a')
-        a.href = url
-        a.download = `${p.headers.get('title')}.${type}`
+        let fetchVidInfo = await fetch(`/getInfo?type=${type}&url=${link.value}`)
+        let response = await fetchVidInfo.json()
 
-        // Create a div & a button:
+        let title = response.title
+
+        // Create a div, a button
+        a.href = `/download?title=${title}&type=${type}&url=${link.value}`
+        a.target = '_blank'
+
         videoTitle = document.createElement('div')
         videoTitle.classList.add('d-inline')
         videoTitle.classList.add('p-2')
         videoTitle.classList.add('text-bg-success')
 
-        videoTitle.innerHTML = p.headers.get('title')
+        videoTitle.innerHTML = title
 
         downloadBtn = document.createElement('button')
         downloadBtn.classList.add('btn')
@@ -58,9 +55,9 @@ async function convert() {
         downloadInfo.appendChild(downloadBtn)
 
         // Whenever they click the download button, click the a tag.
-        downloadBtn.addEventListener('click', function (event) {
+        downloadBtn.addEventListener('click', async function (event) {
             event.preventDefault();
-            a.click()
+            a.click();
         })
     }
 }
