@@ -26,7 +26,6 @@ app.get('/download', (req, res) => {
     stream.pipe(res);
 })
 
-
 app.get('/getInfo', async (req, res) => {
     let type = req.query.type;
     let url = req.query.url;
