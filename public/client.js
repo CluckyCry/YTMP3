@@ -33,7 +33,6 @@ async function convert() {
                 'url': link.value
             }
         })
-        /*
         let blob = await p.blob()
         let url = URL.createObjectURL(blob)
         let a = document.createElement('a')
@@ -63,7 +62,6 @@ async function convert() {
             event.preventDefault();
             a.click()
         })
-        */
     }
 }
 
