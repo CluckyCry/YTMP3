@@ -32,9 +32,10 @@ async function convert() {
         let response = await fetchVidInfo.json()
 
         let title = response.title
+        let size = response.size
 
         // Create a div, a button
-        a.href = `/download?title=${title}&type=${type}&url=${link.value}`
+        a.href = `/download?title=${title}&type=${type}&url=${link.value}&size=${size}`
         a.target = '_blank'
 
         videoTitle = document.createElement('div')
